@@ -38,5 +38,7 @@ public class CommentService {
         if (comment.getPassword().equals(password)) {
             commentRepository.deleteById(commentId);
         }
-    }
+        }
+
+
 }

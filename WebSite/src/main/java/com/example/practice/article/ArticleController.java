@@ -1,8 +1,8 @@
 package com.example.practice.article;
 
 import com.example.practice.article.model.Article;
-import com.example.practice.article.repo.ArticleRepository;
 import com.example.practice.article.repo.BoardRepository;
+import com.example.practice.article.ArticleService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

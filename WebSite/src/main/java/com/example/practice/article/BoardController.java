@@ -23,13 +23,13 @@ public class BoardController {
     @GetMapping
     public String listBoards(Model model) {
         model.addAttribute("boards", boardRepository.findAll());
-        return "boards/list.html";
+        return "boards/list";
     }
 
     @GetMapping("{boardId}")
     public String viewBoard(@PathVariable("boardId") Long boardId, Model model) {
         model.addAttribute("board", boardRepository.findById(boardId).orElse(null));
-        model.addAttribute("articles", articleRepository.findAll()); // Chỉnh sửa để chỉ lấy bài viết thuộc bảng
-        return "boards/view.html";
+        model.addAttribute("articles", articleRepository.findByBoardId(boardId));
+        return "boards/view";
     }
 }

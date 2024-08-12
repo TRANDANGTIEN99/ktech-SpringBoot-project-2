@@ -18,18 +18,30 @@ public class CommentController {
     public String create(
             @PathVariable("articleId") Long articleId,
             @RequestParam("content") String content,
-            @RequestParam("password") String password
+            @RequestParam("password") String password,
+            Model model
     ) {
-        commentService.create(articleId, content, password);
+        try {
+            commentService.create(articleId, content, password);
+        } catch (Exception e) {
+            model.addAttribute("error", "Failed to create comment: " + e.getMessage());
+            return "articles/view.html";
+        }
         return "redirect:/articles/" + articleId;
     }
 
     @PostMapping("{commentId}/delete")
     public String delete(
             @PathVariable("commentId") Long commentId,
-            @RequestParam("password") String password
+            @RequestParam("password") String password,
+            Model model
     ) {
-        commentService.delete(commentId, password);
+        try {
+            commentService.delete(commentId, password);
+        } catch (Exception e) {
+            model.addAttribute("error", "Failed to delete comment: " + e.getMessage());
+            return "articles/view.html";
+        }
         return "redirect:/articles/" + commentId;
     }
 }

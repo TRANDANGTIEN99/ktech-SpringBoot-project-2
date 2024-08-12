@@ -20,7 +20,8 @@ public class ArticleService {
     }
 
     public Article create(String title, String content, String password, Long boardId) {
-        Board board = boardRepository.findById(boardId).orElseThrow(() -> new RuntimeException("Board not found"));
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new RuntimeException("Board with ID " + boardId + " not found"));
         Article article = new Article(title, content, password, board);
         return articleRepository.save(article);
     }
@@ -30,27 +31,31 @@ public class ArticleService {
     }
 
     public Article readOne(Long id) {
-        return articleRepository.findById(id).orElse(null);
+        return articleRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Article with ID " + id + " not found"));
     }
 
     public Article update(Long id, String title, String content, String password) {
-        Optional<Article> optionalArticle = articleRepository.findById(id);
-        if (optionalArticle.isEmpty()) {
-            return null;
-        }
-        Article article = optionalArticle.get();
+        Article article = articleRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Article with ID " + id + " not found"));
+
         if (article.getPassword().equals(password)) {
             article.setTitle(title);
             article.setContent(content);
             return articleRepository.save(article);
+        } else {
+            throw new RuntimeException("Incorrect password for article with ID " + id);
         }
-        return null;
     }
 
     public void delete(Long id, String password) {
-        Optional<Article> optionalArticle = articleRepository.findById(id);
-        if (optionalArticle.isPresent() && optionalArticle.get().getPassword().equals(password)) {
+        Article article = articleRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Article with ID " + id + " not found"));
+
+        if (article.getPassword().equals(password)) {
             articleRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("Incorrect password for article with ID " + id);
         }
     }
 }
