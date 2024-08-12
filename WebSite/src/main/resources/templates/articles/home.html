@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Articles</title>
+</head>
+<body>
+<h1>All Articles</h1>
+<ul>
+    <li th:each="article : ${articles}">
+        <a th:href="@{/articles/{id}(id=${article.id})}" th:text="${article.title}"></a> (in <span th:text="${article.board.name}">Board Name</span>)
+    </li>
+</ul>
+<a href="/boards">Back to Board List</a>
+</body>
+</html>

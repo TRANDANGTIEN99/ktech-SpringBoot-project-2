@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Article</title>
+</head>
+<body>
+<h1>Update Article</h1>
+<form th:action="@{/articles/{id}/update(id=${article.id})}" method="post">
+    <label for="title">Title:</label><br>
+    <input type="text" id="title" name="title" th:value="${article.title}" required><br>
+
+    <label for="content">Content:</label><br>
+    <textarea id="content" name="content" required th:text="${article.content}"></textarea><br>
+
+    <label for="writer">Writer:</label><br>
+    <input type="text" id="writer" name="writer" th:value="${article.writer}" required><br>
+
+    <button type="submit">Update</button>
+</form>
+<a th:href="@{/articles/{id}(id=${article.id})}">Back to Article</a>
+</body>
+</html>
