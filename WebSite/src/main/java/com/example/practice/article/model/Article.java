@@ -18,12 +18,12 @@ public class Article {
     private String content;
 
     @Setter
-    private String password;  // Thêm thuộc tính password
+    private String password;
 
     @Setter
     @ManyToOne
     @JoinColumn(name = "board_id")
-    private Board board;  // Liên kết đến Board
+    private Board board;
 
     public Article() {}
 

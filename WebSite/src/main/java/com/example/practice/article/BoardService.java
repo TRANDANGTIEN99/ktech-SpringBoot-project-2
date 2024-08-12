@@ -16,23 +16,23 @@ public class BoardService {
         this.boardRepository = boardRepository;
     }
 
-    // Tạo mới một Board
+
     public Board create(String name) {
         Board board = new Board(name);
         return boardRepository.save(board);
     }
 
-    // Đọc tất cả các Board
+
     public List<Board> readAll() {
         return boardRepository.findAll();
     }
 
-    // Đọc một Board theo ID
+
     public Board readOne(Long id) {
         return boardRepository.findById(id).orElseThrow(() -> new RuntimeException("Board not found"));
     }
 
-    // Cập nhật tên của Board
+
     public Board update(Long id, String name) {
         Optional<Board> optionalBoard = boardRepository.findById(id);
         if (optionalBoard.isPresent()) {
@@ -44,7 +44,7 @@ public class BoardService {
         }
     }
 
-    // Xóa một Board theo ID
+
     public void delete(Long id) {
         if (boardRepository.existsById(id)) {
             boardRepository.deleteById(id);

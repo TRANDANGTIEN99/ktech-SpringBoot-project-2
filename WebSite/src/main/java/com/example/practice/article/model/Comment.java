@@ -15,7 +15,7 @@ public class Comment {
     private String content;
 
     @Setter
-    private String password;  // Thêm thuộc tính password
+    private String password;
 
     @Setter
     @ManyToOne
