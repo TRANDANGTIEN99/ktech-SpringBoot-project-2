@@ -3,7 +3,6 @@ package com.example.practice.article;
 import com.example.practice.article.model.Board;
 import com.example.practice.article.repo.BoardRepository;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service

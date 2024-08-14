@@ -20,7 +20,7 @@ public class ArticleController {
     @GetMapping("/create")
     public String createArticleForm(@PathVariable Long boardId, Model model) {
         model.addAttribute("boardId", boardId);
-        return "articles/createArticle"; // Đảm bảo đường dẫn và tên tệp HTML chính xác
+        return "articles/createArticle";
     }
 
     @PostMapping("/create")
@@ -29,7 +29,7 @@ public class ArticleController {
                                 @RequestParam String content,
                                 @RequestParam String password) {
         articleService.create(title, content, password, boardId);
-        return "redirect:/boards/" + boardId; // Điều hướng về trang danh sách bài viết của bảng
+        return "redirect:/boards/" + boardId;
     }
 
     @GetMapping("/{articleId}")

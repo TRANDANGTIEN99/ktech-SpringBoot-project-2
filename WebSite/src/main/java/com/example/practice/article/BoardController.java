@@ -17,7 +17,6 @@ public class BoardController {
         this.boardService = boardService;
         this.articleService = articleService;
     }
-
     @GetMapping
     public String listBoards(Model model) {
         model.addAttribute("boards", boardService.readAll());
