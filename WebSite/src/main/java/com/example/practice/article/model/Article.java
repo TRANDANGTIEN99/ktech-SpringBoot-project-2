@@ -37,6 +37,6 @@ public class Article {
         this.content = content;
         this.password = password;
         this.board = board;
-        this.createdAt = LocalDateTime.now(); // Thiết lập thời gian tạo
+        this.createdAt = LocalDateTime.now();
     }
 }

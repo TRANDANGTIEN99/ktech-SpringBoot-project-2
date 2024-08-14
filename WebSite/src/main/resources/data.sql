@@ -1,3 +1,5 @@
+DELETE FROM Article;
+DELETE FROM Board;
 
 CREATE TABLE IF NOT EXISTS Board (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -16,7 +18,7 @@ CREATE TABLE IF NOT EXISTS Article (
 );
 
 
-INSERT INTO Board (name) VALUES ('hi');
-INSERT INTO Board (name) VALUES ('개발 게시판');
-INSERT INTO Board (name) VALUES ('일상 게시판');
-INSERT INTO Board (name) VALUES ('사건사고 게시판');
+INSERT INTO Board (name) VALUES ('Free Board');
+INSERT INTO Board (name) VALUES ('Development Board');
+INSERT INTO Board (name) VALUES ('Daily Life Board');
+INSERT INTO Board (name) VALUES ('Incident Board');
