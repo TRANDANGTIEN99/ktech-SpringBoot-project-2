@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시글: ${article.title}</title>
+</head>
+<body>
+<h1 th:text="${article.title}">게시글 제목</h1>
+<p th:text="${article.content}">게시글 내용</p>
+<p>작성일: <span th:text="${article.createdAt}">작성일</span></p>
+
+
+<h2>댓글</h2>
+<ul>
+    <th:block th:each="comment : ${article.comments}">
+        <li>
+            <p th:text="${comment.content}">댓글 내용</p>
+            <form th:action="@{/boards/{boardId}/articles/comments/{commentId}/delete(boardId=${article.board.id}, commentId=${comment.id})}" method="post">
+                <input type="password" name="password" placeholder="비밀번호" required />
+                <button type="submit">댓글 삭제</button>
+            </form>
+        </li>
+    </th:block>
+</ul>
+
+
+<h3>댓글 추가</h3>
+<form th:action="@{/boards/{boardId}/articles/{articleId}/comments(boardId=${article.board.id}, articleId=${article.id})}" method="post">
+    <textarea name="content" placeholder="댓글을 작성하세요..." required></textarea>
+    <input type="password" name="password" placeholder="비밀번호" required />
+    <button type="submit">댓글 추가</button>
+</form>
+
+<a th:href="@{/boards/{boardId}}">게시판으로 돌아가기</a>
+<a th:href="@{/boards/{boardId}/articles/{articleId}/edit(boardId=${article.board.id}, articleId=${article.id})}">게시글 수정</a>
+<form th:action="@{/boards/{boardId}/articles/{articleId}/delete(boardId=${article.board.id}, articleId=${article.id})}" method="post">
+    <input type="password" name="password" placeholder="비밀번호" required />
+    <button type="submit">게시글 삭제</button>
+</form>
+<a th:href="@{/boards}">게시판 목록으로 돌아가기</a>
+</body>
+</html>

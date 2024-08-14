@@ -17,6 +17,15 @@ CREATE TABLE IF NOT EXISTS Article (
     FOREIGN KEY (board_id) REFERENCES Board(id)
 );
 
+CREATE TABLE IF NOT EXISTS Comment (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    content TEXT NOT NULL,
+    password TEXT NOT NULL,
+    article_id INTEGER NOT NULL,
+    FOREIGN KEY (article_id) REFERENCES Article(id)
+);
+
+
 
 INSERT INTO Board (name) VALUES ('Free Board');
 INSERT INTO Board (name) VALUES ('Development Board');
