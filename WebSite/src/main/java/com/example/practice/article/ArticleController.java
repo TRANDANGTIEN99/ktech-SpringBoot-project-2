@@ -17,6 +17,21 @@ public class ArticleController {
         this.commentService = commentService;
     }
 
+    @GetMapping("/create")
+    public String createArticleForm(@PathVariable Long boardId, Model model) {
+        model.addAttribute("boardId", boardId);
+        return "articles/createArticle"; // Đảm bảo đường dẫn và tên tệp HTML chính xác
+    }
+
+    @PostMapping("/create")
+    public String createArticle(@PathVariable Long boardId,
+                                @RequestParam String title,
+                                @RequestParam String content,
+                                @RequestParam String password) {
+        articleService.create(title, content, password, boardId);
+        return "redirect:/boards/" + boardId; // Điều hướng về trang danh sách bài viết của bảng
+    }
+
     @GetMapping("/{articleId}")
     public String viewArticle(@PathVariable Long boardId, @PathVariable Long articleId, Model model) {
         Article article = articleService.readOne(articleId);
