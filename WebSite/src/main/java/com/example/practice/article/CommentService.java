@@ -8,37 +8,28 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CommentService {
-    private final ArticleRepository articleRepository;
     private final CommentRepository commentRepository;
+    private final ArticleRepository articleRepository;
 
-    public CommentService(ArticleRepository articleRepository, CommentRepository commentRepository) {
-        this.articleRepository = articleRepository;
+    public CommentService(CommentRepository commentRepository, ArticleRepository articleRepository) {
         this.commentRepository = commentRepository;
+        this.articleRepository = articleRepository;
     }
 
-    public Comment create(Long articleId, String content, String password) {
+    public void addComment(Long articleId, String content, String password) {
         Article article = articleRepository.findById(articleId)
                 .orElseThrow(() -> new RuntimeException("Article not found"));
         Comment comment = new Comment(content, password, article);
-        return commentRepository.save(comment);
+        commentRepository.save(comment);
     }
 
-    public Comment readOne(Long articleId, Long commentId) {
-        Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new RuntimeException("Comment not found"));
-        if (!comment.getArticle().getId().equals(articleId)) {
-            throw new RuntimeException("Invalid comment ID");
-        }
-        return comment;
-    }
-
-    public void delete(Long commentId, String password) {
+    public void deleteComment(Long commentId, String password) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new RuntimeException("Comment not found"));
         if (comment.getPassword().equals(password)) {
-            commentRepository.deleteById(commentId);
+            commentRepository.delete(comment);
+        } else {
+            throw new RuntimeException("Incorrect password");
         }
-        }
-
-
+    }
 }

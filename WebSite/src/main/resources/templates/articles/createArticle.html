@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시글 작성</title>
+</head>
+<body>
+<h1>새 게시글 작성</h1>
+<form th:action="@{/boards/{boardId}/articles/create(boardId=${boardId})}" method="post">
+    <input type="text" name="title" placeholder="제목" required />
+    <textarea name="content" placeholder="내용" required></textarea>
+    <input type="password" name="password" placeholder="비밀번호" required />
+    <button type="submit">작성하기</button>
+</form>
+<a th:href="@{/boards/{boardId}}">게시판으로 돌아가기</a>
+</body>
+</html>

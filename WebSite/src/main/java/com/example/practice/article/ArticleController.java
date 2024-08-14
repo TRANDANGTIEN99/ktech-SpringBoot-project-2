@@ -1,63 +1,54 @@
 package com.example.practice.article;
 
 import com.example.practice.article.model.Article;
-import com.example.practice.article.repo.BoardRepository;
-import com.example.practice.article.ArticleService;
+import com.example.practice.article.model.Comment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("boards/{boardId}/articles")
+@RequestMapping("/boards/{boardId}/articles")
 public class ArticleController {
     private final ArticleService articleService;
-    private final BoardRepository boardRepository;
+    private final CommentService commentService;
 
-    public ArticleController(ArticleService articleService, BoardRepository boardRepository) {
+    public ArticleController(ArticleService articleService, CommentService commentService) {
         this.articleService = articleService;
-        this.boardRepository = boardRepository;
+        this.commentService = commentService;
     }
 
-    @GetMapping("create")
-    public String createView(@PathVariable("boardId") Long boardId, Model model) {
-        model.addAttribute("boardId", boardId);
-        return "articles/create.html";
+    @GetMapping("/{articleId}")
+    public String viewArticle(@PathVariable Long boardId, @PathVariable Long articleId, Model model) {
+        Article article = articleService.readOne(articleId);
+        model.addAttribute("article", article);
+        return "articles/viewArticle";
     }
 
-    @PostMapping("create")
-    public String create(
-            @PathVariable("boardId") Long boardId,
-            @RequestParam("title") String title,
-            @RequestParam("content") String content,
-            @RequestParam("password") String password
-    ) {
-        articleService.create(title, content, password, boardId);
+    @PostMapping("/{articleId}/update")
+    public String updateArticle(@PathVariable Long boardId, @PathVariable Long articleId,
+                                @RequestParam String title, @RequestParam String content,
+                                @RequestParam String password) {
+        articleService.update(articleId, title, content, password);
+        return "redirect:/boards/" + boardId + "/articles/" + articleId;
+    }
+
+    @PostMapping("/{articleId}/delete")
+    public String deleteArticle(@PathVariable Long boardId, @PathVariable Long articleId,
+                                @RequestParam String password) {
+        articleService.delete(articleId, password);
         return "redirect:/boards/" + boardId;
     }
 
-    @GetMapping("{articleId}")
-    public String view(@PathVariable("articleId") Long articleId, Model model) {
-        model.addAttribute("article", articleService.readOne(articleId));
-        return "articles/view.html";
+    @PostMapping("/{articleId}/comments")
+    public String addComment(@PathVariable Long articleId, @RequestParam String content,
+                             @RequestParam String password) {
+        commentService.addComment(articleId, content, password);
+        return "redirect:/boards/" + articleService.readOne(articleId).getBoard().getId() + "/articles/" + articleId;
     }
 
-    @PostMapping("{articleId}/update")
-    public String update(
-            @PathVariable("articleId") Long articleId,
-            @RequestParam("title") String title,
-            @RequestParam("content") String content,
-            @RequestParam("password") String password
-    ) {
-        articleService.update(articleId, title, content, password);
-        return "redirect:/articles/" + articleId;
-    }
-
-    @PostMapping("{articleId}/delete")
-    public String delete(
-            @PathVariable("articleId") Long articleId,
-            @RequestParam("password") String password
-    ) {
-        articleService.delete(articleId, password);
+    @PostMapping("/comments/{commentId}/delete")
+    public String deleteComment(@PathVariable Long commentId, @RequestParam String password) {
+        commentService.deleteComment(commentId, password);
         return "redirect:/boards";
     }
 }

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시글 목록</title>
+</head>
+<body>
+<h1>게시글 목록</h1>
+<ul>
+    <th:block th:each="article : ${articles}">
+        <li>
+            <a th:href="@{/boards/{boardId}/articles/{articleId}(boardId=${board.id}, articleId=${article.id})}" th:text="${article.title}">게시글 제목</a>
+        </li>
+    </th:block>
+</ul>
+<a th:href="@{/boards}">게시판 목록으로 돌아가기</a>
+</body>
+</html>

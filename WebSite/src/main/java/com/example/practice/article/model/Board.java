@@ -1,14 +1,14 @@
 package com.example.practice.article.model;
 
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
 import java.util.List;
 
 @Getter
-@Entity
 @Setter
+@Entity
 public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,7 +16,7 @@ public class Board {
 
     private String name;
 
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Article> articles;
 
     public Board() {}

@@ -5,20 +5,19 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
+@Setter
 @Entity
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Setter
     private String content;
 
-    @Setter
     private String password;
 
-    @Setter
     @ManyToOne
+    @JoinColumn(name = "article_id")
     private Article article;
 
     public Comment() {}

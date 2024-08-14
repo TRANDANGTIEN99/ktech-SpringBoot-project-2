@@ -1,8 +1,6 @@
 package com.example.practice.article;
 
 import com.example.practice.article.model.Board;
-import com.example.practice.article.repo.BoardRepository;
-import com.example.practice.article.repo.ArticleRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,24 +10,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("boards")
 public class BoardController {
-    private final BoardRepository boardRepository;
-    private final ArticleRepository articleRepository;
+    private final BoardService boardService;
+    private final ArticleService articleService;
 
-    public BoardController(BoardRepository boardRepository, ArticleRepository articleRepository) {
-        this.boardRepository = boardRepository;
-        this.articleRepository = articleRepository;
+    public BoardController(BoardService boardService, ArticleService articleService) {
+        this.boardService = boardService;
+        this.articleService = articleService;
     }
 
     @GetMapping
     public String listBoards(Model model) {
-        model.addAttribute("boards", boardRepository.findAll());
-        return "boards/list";
+        model.addAttribute("boards", boardService.readAll());
+        return "boards/listBoards";
     }
 
-    @GetMapping("{boardId}")
-    public String viewBoard(@PathVariable("boardId") Long boardId, Model model) {
-        model.addAttribute("board", boardRepository.findById(boardId).orElse(null));
-        model.addAttribute("articles", articleRepository.findByBoardId(boardId));
-        return "boards/view";
+    @GetMapping("/{boardId}")
+    public String viewBoard(@PathVariable Long boardId, Model model) {
+        Board board = boardService.readOne(boardId);
+        model.addAttribute("board", board);
+        model.addAttribute("articles", articleService.readByBoardId(boardId));
+        return "articles/viewBoard";
     }
 }

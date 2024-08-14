@@ -7,7 +7,6 @@ import com.example.practice.article.repo.BoardRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ArticleService {
@@ -21,41 +20,38 @@ public class ArticleService {
 
     public Article create(String title, String content, String password, Long boardId) {
         Board board = boardRepository.findById(boardId)
-                .orElseThrow(() -> new RuntimeException("Board with ID " + boardId + " not found"));
+                .orElseThrow(() -> new RuntimeException("Board not found"));
         Article article = new Article(title, content, password, board);
         return articleRepository.save(article);
     }
 
-    public List<Article> readAll() {
-        return articleRepository.findAll();
+    public List<Article> readByBoardId(Long boardId) {
+        return articleRepository.findByBoardIdOrderByCreatedAtDesc(boardId);
     }
 
     public Article readOne(Long id) {
-        return articleRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Article with ID " + id + " not found"));
+        return articleRepository.findById(id).orElse(null);
     }
 
-    public Article update(Long id, String title, String content, String password) {
+    public void update(Long id, String title, String content, String password) {
         Article article = articleRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Article with ID " + id + " not found"));
-
+                .orElseThrow(() -> new RuntimeException("Article not found"));
         if (article.getPassword().equals(password)) {
             article.setTitle(title);
             article.setContent(content);
-            return articleRepository.save(article);
+            articleRepository.save(article);
         } else {
-            throw new RuntimeException("Incorrect password for article with ID " + id);
+            throw new RuntimeException("Incorrect password");
         }
     }
 
     public void delete(Long id, String password) {
         Article article = articleRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Article with ID " + id + " not found"));
-
+                .orElseThrow(() -> new RuntimeException("Article not found"));
         if (article.getPassword().equals(password)) {
-            articleRepository.deleteById(id);
+            articleRepository.delete(article);
         } else {
-            throw new RuntimeException("Incorrect password for article with ID " + id);
+            throw new RuntimeException("Incorrect password");
         }
     }
 }
