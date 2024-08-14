@@ -9,7 +9,7 @@ spring:
       # create-drop
       # update: DDL과 실제 데이터베이스 테이블이 다를 경우 수정
       # none: DDL을 전혀 사용하지 않는다.
-      ddl-auto: create
+      ddl-auto: update
     # 실제로 실행되는 SQL을 출력하고 싶을 때
     show-sql: true
     # 내가 사용하는 데이터베이스의 방언
